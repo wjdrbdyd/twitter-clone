@@ -1,7 +1,18 @@
 // Import the functions you need from the SDKs you need
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  orderBy,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from "firebase/firestore";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -10,7 +21,13 @@ import {
   onAuthStateChanged,
   signInWithPopup,
 } from "firebase/auth";
-
+import {
+  getStorage,
+  ref,
+  uploadString,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -25,7 +42,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 export const authService = getAuth();
 export const createUser = createUserWithEmailAndPassword;
 export const signInUser = signInWithEmailAndPassword;
@@ -33,4 +50,20 @@ export const saveMethod = setPersistence;
 export const onAuthChanged = onAuthStateChanged;
 export const signPop = signInWithPopup;
 export const storeService = getFirestore();
-export { collection, addDoc, getDocs };
+export const storageService = getStorage(app, "gs://nwiter-6c8aa.appspot.com");
+
+export {
+  collection,
+  addDoc,
+  getDocs,
+  onSnapshot,
+  doc,
+  query,
+  orderBy,
+  deleteDoc,
+  updateDoc,
+  ref,
+  uploadString,
+  getDownloadURL,
+  deleteObject,
+};

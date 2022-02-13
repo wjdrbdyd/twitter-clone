@@ -3,15 +3,19 @@ import Auth from "routes/Auth";
 import Home from "routes/Home";
 import Navigation from "components/Navigation";
 import Profile from "routes/Profile";
-
-const Router = ({ isLoggedIn }: any) => {
+import { User } from "firebase/auth";
+interface IRouter {
+  isLoggedIn: boolean;
+  userObj?: User;
+}
+const Router = ({ isLoggedIn, userObj }: IRouter) => {
   return (
     <HashRouter>
       {isLoggedIn && <Navigation />}
       <Routes>
         {isLoggedIn ? (
           <>
-            <Route path="/" element={<Home />}></Route>
+            <Route path="/" element={<Home userObj={userObj} />}></Route>
             <Route path="/profile" element={<Profile></Profile>}></Route>
           </>
         ) : (

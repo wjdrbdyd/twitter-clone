@@ -1,25 +1,27 @@
 import Router from "components/Router";
 import { authService, onAuthChanged } from "fbase";
+import { User } from "firebase/auth";
 import { useEffect, useState } from "react";
 
 function App() {
   const [init, setInit] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [userObj, setUserObj] = useState<User>();
   useEffect(() => {
     onAuthChanged(authService, (user) => {
-      console.log(user);
       if (user) {
-        setIsLoggedIn(true);
+        setUserObj(user);
       } else {
-        setIsLoggedIn(false);
       }
       setInit(true);
     });
   }, []);
   return (
     <>
-      {init ? <Router isLoggedIn={isLoggedIn} /> : "Initializing..."}
+      {init ? (
+        <Router isLoggedIn={Boolean(userObj)} userObj={userObj} />
+      ) : (
+        "Initializing..."
+      )}
       <footer>&copy; {new Date().getFullYear()} Nwitter </footer>
     </>
   );
