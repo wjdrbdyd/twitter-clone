@@ -11,7 +11,7 @@ interface IRouter {
 }
 const Router = ({ refreshUser, isLoggedIn, userObj }: IRouter) => {
   return (
-    <HashRouter>
+    <HashRouter basename="/">
       {isLoggedIn && <Navigation userObj={userObj as User} />}
       <div
         style={{
