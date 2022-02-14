@@ -37,9 +37,11 @@ const Navigation = ({ userObj }: INavigation) => {
               color={"#04AAFF"}
               size="2x"
             />
-            {userObj.displayName
-              ? `${userObj.displayName}의 Profile`
-              : "Profile"}
+            <span style={{ marginTop: 10 }}>
+              {userObj.displayName
+                ? `${userObj.displayName}의 Profile`
+                : "Profile"}
+            </span>
           </Link>
         </li>
       </ul>

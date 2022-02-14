@@ -13,7 +13,31 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import React from "react";
-
+import styled from "styled-components";
+const AuthContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+`;
+const AuthBtns = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 320px;
+`;
+const AuthBtn = styled.button`
+  cursor: pointer;
+  border-radius: 20px;
+  border: none;
+  padding: 10px 0px;
+  font-size: 12px;
+  text-align: center;
+  width: 150px;
+  background: white;
+  cursor: pointer;
+`;
 const Auth = () => {
   const onSocialClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
@@ -29,7 +53,7 @@ const Auth = () => {
     await signPop(authService, provider);
   };
   return (
-    <div className="authContainer">
+    <AuthContainer className="authContainer">
       <FontAwesomeIcon
         icon={faTwitter as IconProp}
         color={"#04AAFF"}
@@ -37,15 +61,15 @@ const Auth = () => {
         style={{ marginBottom: 30 }}
       />
       <AuthForm />
-      <div className="authBtns">
-        <button onClick={onSocialClick} name="google" className="authBtn">
+      <AuthBtns className="authBtns">
+        <AuthBtn onClick={onSocialClick} name="google" className="authBtn">
           Continue with Google <FontAwesomeIcon icon={faGoogle as IconProp} />
-        </button>
-        <button onClick={onSocialClick} name="github" className="authBtn">
+        </AuthBtn>
+        <AuthBtn onClick={onSocialClick} name="github" className="authBtn">
           Continue with Github <FontAwesomeIcon icon={faGithub as IconProp} />
-        </button>
-      </div>
-    </div>
+        </AuthBtn>
+      </AuthBtns>
+    </AuthContainer>
   );
 };
 

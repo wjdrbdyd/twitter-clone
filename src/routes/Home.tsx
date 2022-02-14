@@ -3,6 +3,8 @@ import { storeService, collection, onSnapshot, query, orderBy } from "fbase";
 import { User } from "firebase/auth";
 import Nweet from "components/Nweet";
 import NweetFactory from "components/NweetFactory";
+import { Container } from "GlobalStyle";
+
 export interface INweetCollection {
   id: string;
   nweetText: string;
@@ -31,7 +33,7 @@ const Home = ({ userObj }: IUser) => {
   }, []);
 
   return (
-    <div className="container">
+    <Container>
       <NweetFactory userObj={userObj} />
       <div style={{ marginTop: 30 }}>
         {nweets.map((nweet) => (
@@ -42,7 +44,7 @@ const Home = ({ userObj }: IUser) => {
           />
         ))}
       </div>
-    </div>
+    </Container>
   );
 };
 

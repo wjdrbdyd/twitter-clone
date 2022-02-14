@@ -13,11 +13,52 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { Container, FormBtn, FormInput } from "GlobalStyle";
 
-const Input = styled.input`
-  &::placeholder {
-    color: white;
-    opacity: 0.9;
+const SNweet = styled.div`
+  margin-bottom: 20px;
+  background-color: white;
+  width: 100%;
+  max-width: 320px;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: rgba(0, 0, 0, 0.8);
+  h4 {
+    font-size: 14px;
+  }
+  img {
+    right: -10px;
+    top: 20px;
+    position: absolute;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+  }
+`;
+const NweetForm = styled(Container)`
+  ${FormBtn} {
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+`;
+const CancelBtn = styled(FormBtn)`
+  cursor: pointer;
+  background-color: tomato;
+`;
+const ActionBtns = styled.div`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  span {
+    cursor: pointer;
+    &:first-child {
+      margin-right: 10px;
+    }
   }
 `;
 interface INweet {
@@ -53,24 +94,21 @@ const Nweet = ({ nweetObj, isOwner }: INweet) => {
     setNewNweet(value);
   };
   return (
-    <div className="nweet">
+    <SNweet>
       {editing ? (
         isOwner && (
           <>
-            <form onSubmit={onSubmit} className="container nweetEdit">
-              <input
+            <NweetForm onSubmit={onSubmit}>
+              <FormInput
                 type="text"
                 placeholder="Edit your nweet"
                 value={newNweet}
                 required
                 onChange={onChange}
-                className="formInput"
               />
-              <input type="submit" className="formBtn" value="확인" />
-            </form>
-            <button onClick={toggleEditing} className="formBtn cancelBtn">
-              Cancel
-            </button>
+              <FormBtn type="submit" value="확인" />
+            </NweetForm>
+            <CancelBtn onClick={toggleEditing}>Cancel</CancelBtn>
           </>
         )
       ) : (
@@ -85,18 +123,18 @@ const Nweet = ({ nweetObj, isOwner }: INweet) => {
             />
           )}
           {isOwner && (
-            <div className="nweet__actions">
+            <ActionBtns>
               <span onClick={onDeleteClick}>
                 <FontAwesomeIcon icon={faTrash as IconProp} />
               </span>
               <span onClick={toggleEditing}>
                 <FontAwesomeIcon icon={faPencilAlt as IconProp} />
               </span>
-            </div>
+            </ActionBtns>
           )}
         </>
       )}
-    </div>
+    </SNweet>
   );
 };
 

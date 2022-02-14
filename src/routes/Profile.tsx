@@ -9,14 +9,20 @@ import {
   updateProfile,
 } from "fbase";
 import { User } from "firebase/auth";
+import { Container, FormBtn, FormInput } from "GlobalStyle";
 import React, { FormEvent, useEffect, useState } from "react";
 import styled from "styled-components";
-const Form = styled.div`
+const Form = styled.form`
   border-bottom: 1px solid rgba(255, 255, 255, 0.9);
   padding-bottom: 30px;
   width: 100%;
   display: flex;
   flex-direction: column;
+`;
+const LogoutBtn = styled(FormBtn)`
+  cursor: pointer;
+  background-color: tomato;
+  margin-top: 50px;
 `;
 interface IProfile {
   userObj: User;
@@ -42,7 +48,6 @@ const Profile = ({ refreshUser, userObj }: IProfile) => {
   }, []);
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
-
     // 유저 displayN name 변경시에만 업데이트
     if (userObj.displayName !== newDisplayName) {
       await updateProfile(userObj, {
@@ -59,29 +64,27 @@ const Profile = ({ refreshUser, userObj }: IProfile) => {
     setNewDisplayName(value);
   };
   return (
-    <div className="container">
-      <form onSubmit={onSubmit} className="profileForm">
-        <input
+    <Container>
+      <Form onSubmit={onSubmit}>
+        <FormInput
           type="text"
           autoFocus
           onChange={onChange}
           value={newDisplayName || ""}
           placeholder="Display name"
-          className="formInput"
         />
-        <input
+        <FormBtn
           type="submit"
           value="Update Profile"
-          className="formBtn"
           style={{
             marginTop: 10,
           }}
         />
-      </form>
-      <span className="formBtn cancelBtn logOut" onClick={onLogoutClick}>
+      </Form>
+      <LogoutBtn as="span" onClick={onLogoutClick}>
         Log Out
-      </span>
-    </div>
+      </LogoutBtn>
+    </Container>
   );
 };
 
