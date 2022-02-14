@@ -5,7 +5,6 @@ interface INavigation {
   userObj: User;
 }
 const Navigation = ({ userObj }: INavigation) => {
-  console.log("Navigation 렌더링.");
   return (
     <nav>
       <ul>

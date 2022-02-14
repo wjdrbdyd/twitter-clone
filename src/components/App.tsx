@@ -15,6 +15,9 @@ function App() {
     onAuthChanged(authService, (user) => {
       if (user) {
         setUserObj(user);
+      } else {
+        setUserObj({} as User);
+        setReUserObj({} as IReUser);
       }
       setInit(true);
     });
@@ -31,7 +34,7 @@ function App() {
     <>
       {init ? (
         <Router
-          isLoggedIn={Boolean(userObj)}
+          isLoggedIn={Object.keys({ ...userObj }).length > 0}
           userObj={userObj}
           refreshUser={refreshUser}
         />

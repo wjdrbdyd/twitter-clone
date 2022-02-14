@@ -16,12 +16,10 @@ const Auth = () => {
     let provider: AuthProvider = {} as AuthProvider;
     if (name === "google") {
       provider = new GoogleAuthProvider();
-      console.log(provider);
     } else if (name === "github") {
       provider = new GithubAuthProvider();
     }
-    const data = await signPop(authService, provider);
-    console.log(data);
+    await signPop(authService, provider);
   };
   return (
     <div>

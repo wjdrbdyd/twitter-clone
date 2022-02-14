@@ -17,7 +17,9 @@ interface IProfile {
 }
 const Profile = ({ refreshUser, userObj }: IProfile) => {
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
-  const onLogoutClick = () => authService.signOut();
+  const onLogoutClick = () => {
+    authService.signOut();
+  };
   const getMyNweets = async () => {
     const nweets = await getDocs(
       query(
