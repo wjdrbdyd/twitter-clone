@@ -1,24 +1,40 @@
 import Router from "components/Router";
-import { authService, onAuthChanged } from "fbase";
+import { authService, onAuthChanged, updateProfile } from "fbase";
 import { User } from "firebase/auth";
 import { useEffect, useState } from "react";
 
+interface IReUser {
+  displayName?: string;
+  photoURL?: string;
+}
 function App() {
   const [init, setInit] = useState(false);
   const [userObj, setUserObj] = useState<User>();
+  const [reUserObj, setReUserObj] = useState<IReUser>();
   useEffect(() => {
     onAuthChanged(authService, (user) => {
       if (user) {
         setUserObj(user);
-      } else {
       }
       setInit(true);
     });
   }, []);
+  const refreshUser = () => {
+    const user = authService.currentUser;
+    if (user) {
+      setUserObj(user);
+      setReUserObj({ displayName: user.displayName || "" });
+    }
+  };
+
   return (
     <>
       {init ? (
-        <Router isLoggedIn={Boolean(userObj)} userObj={userObj} />
+        <Router
+          isLoggedIn={Boolean(userObj)}
+          userObj={userObj}
+          refreshUser={refreshUser}
+        />
       ) : (
         "Initializing..."
       )}
