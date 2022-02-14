@@ -10,6 +10,9 @@ import {
   getDownloadURL,
 } from "fbase";
 import { IUser } from "routes/Home";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Icon, IconProp } from "@fortawesome/fontawesome-svg-core";
 const NweetFactory = ({ userObj }: IUser) => {
   const [nweetText, setNweetText] = useState("");
   const [attachment, setAttachment] = useState("");
@@ -70,25 +73,46 @@ const NweetFactory = ({ userObj }: IUser) => {
     }
   };
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="factoryForm">
+      <div className="factoryInput__container">
+        <input
+          className="factoryInput__input"
+          value={nweetText}
+          onChange={onChange}
+          name="nweetText"
+          type="text"
+          placeholder="What's on your mind?"
+        />
+        <input type="submit" value="&rarr;" className="factoryInput__arrow" />
+      </div>
+      <label htmlFor="attach-file" className="factoryInput__label">
+        <span>Add photos</span>
+        <FontAwesomeIcon icon={faPlus as IconProp} />
+      </label>
       <input
-        value={nweetText}
-        onChange={onChange}
-        name="nweetText"
-        type="text"
-        placeholder="What's on your mind?"
-      />
-      <input
+        id="attach-file"
         ref={fileInputRef}
         type="file"
         accept="image/*"
         onChange={onFileChange}
+        style={{
+          opacity: 0,
+        }}
       />
-      <input type="submit" value="Nweet" />
+
       {attachment && (
-        <div>
-          <img src={attachment} width="50px" height="50px" alt="img" />
-          <button onClick={onClearAttachment}>Clear</button>
+        <div className="factoryForm__attachment">
+          <img
+            src={attachment}
+            style={{
+              backgroundImage: attachment,
+            }}
+            alt=""
+          />
+          <div className="factoryForm__clear" onClick={onClearAttachment}>
+            <span>Remove</span>
+            <FontAwesomeIcon icon={faTimes as IconProp} />
+          </div>
         </div>
       )}
     </form>

@@ -10,7 +10,14 @@ import {
 } from "fbase";
 import { User } from "firebase/auth";
 import React, { FormEvent, useEffect, useState } from "react";
-
+import styled from "styled-components";
+const Form = styled.div`
+  border-bottom: 1px solid rgba(255, 255, 255, 0.9);
+  padding-bottom: 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
 interface IProfile {
   userObj: User;
   refreshUser: Function;
@@ -52,17 +59,28 @@ const Profile = ({ refreshUser, userObj }: IProfile) => {
     setNewDisplayName(value);
   };
   return (
-    <div>
-      <form onSubmit={onSubmit}>
+    <div className="container">
+      <form onSubmit={onSubmit} className="profileForm">
         <input
           type="text"
+          autoFocus
           onChange={onChange}
           value={newDisplayName || ""}
           placeholder="Display name"
+          className="formInput"
         />
-        <input type="submit" value="Update Profile" />
+        <input
+          type="submit"
+          value="Update Profile"
+          className="formBtn"
+          style={{
+            marginTop: 10,
+          }}
+        />
       </form>
-      <button onClick={onLogoutClick}>Logout</button>
+      <span className="formBtn cancelBtn logOut" onClick={onLogoutClick}>
+        Log Out
+      </span>
     </div>
   );
 };

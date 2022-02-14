@@ -15,7 +15,16 @@ const Router = ({ refreshUser, isLoggedIn, userObj }: IRouter) => {
       {isLoggedIn && <Navigation userObj={userObj as User} />}
       <Routes>
         {isLoggedIn ? (
-          <>
+          <div
+            style={{
+              maxWidth: 890,
+              width: "100%",
+              margin: "0 auto",
+              marginTop: 80,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <Route
               path="/"
               element={<Home userObj={userObj as User} />}
@@ -29,7 +38,7 @@ const Router = ({ refreshUser, isLoggedIn, userObj }: IRouter) => {
                 ></Profile>
               }
             ></Route>
-          </>
+          </div>
         ) : (
           <Route path="/" element={<Auth />}></Route>
         )}
