@@ -34,7 +34,9 @@ function App() {
   }, []);
   const refreshUser = () => {
     const user = authService.currentUser;
+
     if (user) {
+      console.log(user.photoURL);
       setUserObj(user);
       setReUserObj({ displayName: user.displayName || "" });
     }

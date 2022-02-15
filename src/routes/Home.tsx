@@ -40,6 +40,7 @@ const Home = ({ userObj }: IUser) => {
           <Nweet
             key={nweet.id}
             nweetObj={nweet}
+            photoUrl={userObj.photoURL}
             isOwner={nweet.creatorId === userObj?.uid}
           />
         ))}

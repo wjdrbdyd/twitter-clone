@@ -63,11 +63,13 @@ const ActionBtns = styled.div`
   }
 `;
 interface INweet {
+  photoUrl: string | null;
   nweetObj: INweetCollection;
   isOwner: boolean;
 }
 
-const Nweet = ({ nweetObj, isOwner }: INweet) => {
+const Nweet = ({ photoUrl, nweetObj, isOwner }: INweet) => {
+  console.log(photoUrl);
   const nweetRef = doc(storeService, "nweets", nweetObj.id);
   const [editing, setEditing] = useState(false);
   const [newNweet, setNewNweet] = useState(nweetObj.nweetText);
@@ -117,14 +119,17 @@ const Nweet = ({ nweetObj, isOwner }: INweet) => {
       ) : (
         <>
           <h4>{nweetObj.nweetText}</h4>
-          {nweetObj.attachmentUrl && (
+          {photoUrl && (
+            <img src={photoUrl} width="50px" height="50px" alt="attachImg" />
+          )}
+          {/* {nweetObj.attachmentUrl && (
             <img
               src={nweetObj.attachmentUrl}
               width="50px"
               height="50px"
               alt="attachImg"
             />
-          )}
+          )} */}
           {isOwner && (
             <ActionBtns>
               <span onClick={onDeleteClick}>
