@@ -48,6 +48,7 @@ const NweetForm = styled(Container)`
 `;
 const CancelBtn = styled(FormBtn)`
   cursor: pointer;
+  border: none;
   background-color: tomato;
 `;
 const ActionBtns = styled.div`
@@ -98,7 +99,7 @@ const Nweet = ({ nweetObj, isOwner }: INweet) => {
       {editing ? (
         isOwner && (
           <>
-            <NweetForm onSubmit={onSubmit}>
+            <NweetForm as="form" onSubmit={onSubmit}>
               <FormInput
                 type="text"
                 placeholder="Edit your nweet"
@@ -108,7 +109,9 @@ const Nweet = ({ nweetObj, isOwner }: INweet) => {
               />
               <FormBtn type="submit" value="확인" />
             </NweetForm>
-            <CancelBtn onClick={toggleEditing}>Cancel</CancelBtn>
+            <CancelBtn as="button" onClick={toggleEditing}>
+              Cancel
+            </CancelBtn>
           </>
         )
       ) : (
