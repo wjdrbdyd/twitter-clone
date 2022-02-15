@@ -1,6 +1,3 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { v4 as uuidv4 } from "uuid";
 import {
   authService,
@@ -11,7 +8,6 @@ import {
   getDocs,
   orderBy,
   updateProfile,
-  addDoc,
   storageService,
   ref,
   uploadString,
@@ -22,7 +18,7 @@ import { User } from "firebase/auth";
 import { Container, FormBtn, FormInput } from "GlobalStyle";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { profile } from "console";
+
 const Form = styled.form`
   border-bottom: 1px solid rgba(255, 255, 255, 0.9);
   padding-bottom: 30px;
@@ -65,6 +61,7 @@ const Profile = ({ refreshUser, userObj }: IProfile) => {
   const onLogoutClick = () => {
     authService.signOut();
   };
+
   const getMyNweets = async () => {
     await getDocs(
       query(
@@ -108,6 +105,7 @@ const Profile = ({ refreshUser, userObj }: IProfile) => {
       newPhotoURL !== prevPhoto &&
       resetPhoto !== newPhotoURL
     ) {
+      console.log("여기는 실행되면 안돼");
       const newPhotoURLRef = ref(storageService, `${userObj?.uid}/${uuidv4()}`);
       const response = await uploadString(
         newPhotoURLRef,
@@ -115,6 +113,10 @@ const Profile = ({ refreshUser, userObj }: IProfile) => {
         "data_url"
       );
       profileURL = await getDownloadURL(response.ref);
+    } else {
+      if (resetPhoto) {
+        profileURL = resetPhoto;
+      }
     }
     if (prevPhoto !== newPhotoURL || prevDisplayName !== newDisplayName) {
       await updateProfile(userObj, {
