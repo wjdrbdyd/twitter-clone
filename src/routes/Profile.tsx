@@ -22,6 +22,7 @@ import { User } from "firebase/auth";
 import { Container, FormBtn, FormInput } from "GlobalStyle";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { profile } from "console";
 const Form = styled.form`
   border-bottom: 1px solid rgba(255, 255, 255, 0.9);
   padding-bottom: 30px;
@@ -47,7 +48,12 @@ const Label = styled.label`
     font-size: 12px;
   }
 `;
-
+const ResetButton = styled(FormBtn)`
+  border: none;
+  background-color: #04aaff;
+  margin-top: 10px;
+  color: white;
+`;
 interface IProfile {
   userObj: User;
   refreshUser: Function;
@@ -59,11 +65,6 @@ const Profile = ({ refreshUser, userObj }: IProfile) => {
   const onLogoutClick = () => {
     authService.signOut();
   };
-
-  useEffect(() => {
-    setNewPhotoURL(userObj.photoURL);
-  }, []);
-
   const getMyNweets = async () => {
     await getDocs(
       query(
@@ -75,13 +76,38 @@ const Profile = ({ refreshUser, userObj }: IProfile) => {
   };
   useEffect(() => {
     getMyNweets();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const resetProfile = (event: FormEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    if (userObj !== null) {
+      const resetPhotoUrl = userObj.providerData[0].photoURL;
+      const resetDisplayName = userObj.providerData[0].displayName;
+      if (
+        resetPhotoUrl !== newPhotoURL ||
+        resetDisplayName !== newDisplayName
+      ) {
+        setNewPhotoURL(resetPhotoUrl);
+        setNewDisplayName(resetDisplayName);
+      }
+    }
+  };
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    let profileURL = "";
 
-    if (newPhotoURL) {
+    let profileURL = "";
+    const prevPhoto = userObj.photoURL;
+    const prevDisplayName = userObj.displayName;
+    const resetPhoto = userObj.providerData[0].photoURL;
+
+    if (
+      newPhotoURL &&
+      newPhotoURL !== prevPhoto &&
+      resetPhoto !== newPhotoURL
+    ) {
       const newPhotoURLRef = ref(storageService, `${userObj?.uid}/${uuidv4()}`);
       const response = await uploadString(
         newPhotoURLRef,
@@ -90,14 +116,7 @@ const Profile = ({ refreshUser, userObj }: IProfile) => {
       );
       profileURL = await getDownloadURL(response.ref);
     }
-    console.log("user:", userObj.photoURL);
-    console.log("photo:", profileURL);
-
-    if (
-      userObj.photoURL !== newPhotoURL ||
-      userObj.displayName !== newDisplayName
-    ) {
-      console.log("update");
+    if (prevPhoto !== newPhotoURL || prevDisplayName !== newDisplayName) {
       await updateProfile(userObj, {
         displayName: newDisplayName,
         photoURL: profileURL,
@@ -163,7 +182,9 @@ const Profile = ({ refreshUser, userObj }: IProfile) => {
           value={newDisplayName || ""}
           placeholder="Display name"
         />
-
+        <ResetButton as="button" type="button" onClick={resetProfile}>
+          기본 프로필로 변경
+        </ResetButton>
         <FormBtn
           type="submit"
           value="Update Profile"
@@ -172,6 +193,7 @@ const Profile = ({ refreshUser, userObj }: IProfile) => {
           }}
         />
       </Form>
+
       <LogoutBtn as="span" onClick={onLogoutClick}>
         Log Out
       </LogoutBtn>

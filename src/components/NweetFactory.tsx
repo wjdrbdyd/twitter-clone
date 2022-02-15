@@ -98,6 +98,7 @@ const NweetFactory = ({ userObj }: IUser) => {
       nweetText: nweetText,
       createdAt: Date.now(),
       creatorId: userObj?.uid as string,
+      profileUrl: userObj.photoURL,
       attachmentUrl,
     };
 

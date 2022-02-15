@@ -10,6 +10,7 @@ export interface INweetCollection {
   nweetText: string;
   createdAt: number;
   creatorId: string;
+  profileUrl: string;
   attachmentUrl?: string;
 }
 export interface IUser {
@@ -40,7 +41,6 @@ const Home = ({ userObj }: IUser) => {
           <Nweet
             key={nweet.id}
             nweetObj={nweet}
-            photoUrl={userObj.photoURL}
             isOwner={nweet.creatorId === userObj?.uid}
           />
         ))}

@@ -63,13 +63,11 @@ const ActionBtns = styled.div`
   }
 `;
 interface INweet {
-  photoUrl: string | null;
   nweetObj: INweetCollection;
   isOwner: boolean;
 }
 
-const Nweet = ({ photoUrl, nweetObj, isOwner }: INweet) => {
-  console.log(photoUrl);
+const Nweet = ({ nweetObj, isOwner }: INweet) => {
   const nweetRef = doc(storeService, "nweets", nweetObj.id);
   const [editing, setEditing] = useState(false);
   const [newNweet, setNewNweet] = useState(nweetObj.nweetText);
@@ -119,8 +117,12 @@ const Nweet = ({ photoUrl, nweetObj, isOwner }: INweet) => {
       ) : (
         <>
           <h4>{nweetObj.nweetText}</h4>
-          {photoUrl && (
-            <img src={photoUrl} width="50px" height="50px" alt="attachImg" />
+          {nweetObj.profileUrl && (
+            <img
+              src={nweetObj.profileUrl}
+              style={{ width: "50px", height: "50px", zIndex: 2 }}
+              alt="attachImg"
+            />
           )}
           {/* {nweetObj.attachmentUrl && (
             <img
